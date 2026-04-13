@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yeşil İplik — Kumaş Takip Sistemi</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-icon">🧵</span>
+                <div class="logo-text">
+                    <span class="logo-title">YEŞİL İPLİK</span>
+                    <span class="logo-sub">She Lab · Boyner × UNDP</span>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link active">Takip Et</a>
+                <a href="#" class="nav-link">Hakkında</a>
+                <a href="#" class="nav-link">İletişim</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO / SEARCH -->
+    <section class="hero">
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-video-wrap">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="karavan.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Kumaşının Yolculuğunu Takip Et</p>
+            <h1 class="hero-title">Her İpliğin Bir<br /><em>Hikâyesi</em> Var</h1>
+            <p class="hero-desc">Bağışladığın kumaşın karavandan atölyeye, atölyeden yeni bir ürüne dönüşme sürecini
+                takip et.</p>
+
+            <div class="search-box">
+                <div class="search-input-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input id="trackingInput" type="text" class="search-input"
+                        placeholder="Takip kodunuzu girin (Örn: IST-001)" />
+                </div>
+                <button id="trackBtn" class="search-btn">Takip Et</button>
+            </div>
+
+            <div class="quick-demos">
+                <span class="demo-label">Örnek kodlar:</span>
+                <button class="demo-tag" data-code="IST-001">IST-001</button>
+                <button class="demo-tag" data-code="IZMR-042">IZMR-042</button>
+                <button class="demo-tag" data-code="ANK-017">ANK-017</button>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="fabric-cards">
+                <div class="fabric-card fc1">
+                    <span class="fc-icon">🧶</span>
+                    <span class="fc-label">Pamuk · İstanbul</span>
+                </div>
+                <div class="fabric-card fc2">
+                    <span class="fc-icon">🪡</span>
+                    <span class="fc-label">Keten · İzmir</span>
+                </div>
+                <div class="fabric-card fc3">
+                    <span class="fc-icon">🧣</span>
+                    <span class="fc-label">Yün · Ankara</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULT PANEL -->
+    <section id="resultPanel" class="result-panel hidden">
+        <div class="result-inner">
+
+            <!-- FABRIC INFO -->
+            <div class="result-header">
+                <div class="result-badge" id="resultBadge">IST-001</div>
+                <div class="result-meta">
+                    <h2 id="resultTitle" class="result-title">—</h2>
+                    <p id="resultStory" class="result-story">—</p>
+                </div>
+                <div class="result-status" id="resultStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">—</span>
+                </div>
+            </div>
+
+            <!-- PROGRESS TRACK -->
+            <div class="track-section">
+                <h3 class="track-heading">Yolculuk Haritası</h3>
+                <div class="track-steps" id="trackSteps">
+                    <!-- Steps injected by JS -->
+                </div>
+            </div>
+
+            <!-- DETAIL CARDS -->
+            <div class="detail-cards">
+                <div class="detail-card">
+                    <div class="dc-icon">🌿</div>
+                    <div class="dc-label">Kumaş Türü</div>
+                    <div class="dc-value" id="dcType">—</div>
+                </div>
+                <div class="detail-card">
+                    <div class="dc-icon">📍</div>
+                    <div class="dc-label">Toplama Şehri</div>
+                    <div class="dc-value" id="dcCity">—</div>
+                </div>
+                <div class="detail-card">
+                    <div class="dc-icon">♻️</div>
+                    <div class="dc-label">Dönüşüm Ürünü</div>
+                    <div class="dc-value" id="dcProduct">—</div>
+                </div>
+                <div class="detail-card">
+                    <div class="dc-icon">💧</div>
+                    <div class="dc-label">Su Tasarrufu</div>
+                    <div class="dc-value" id="dcWater">—</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- STATS SECTION -->
+    <section class="stats-section">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-num" data-target="1850">0</div>
+                <div class="stat-unit">ton</div>
+                <div class="stat-label">Toplanan Kumaş Hedefi</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="22">0</div>
+                <div class="stat-unit">şehir</div>
+                <div class="stat-label">Karavan Durağı</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="200">0</div>
+                <div class="stat-unit">kadın</div>
+                <div class="stat-label">Eğitim Katılımcısı</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="95">0</div>
+                <div class="stat-unit">%</div>
+                <div class="stat-label">Geri Dönüşüm Potansiyeli</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="howto-section">
+        <div class="howto-inner">
+            <h2 class="section-title">Nasıl Çalışır?</h2>
+            <div class="howto-steps">
+                <div class="howto-step">
+                    <div class="hs-num">01</div>
+                    <div class="hs-icon">🚐</div>
+                    <h4>Miras Karavanı Gelir</h4>
+                    <p>Anadolu'nun dört bir yanını gezen karavan, senden kumaşını ve hikâyeni alır.</p>
+                </div>
+                <div class="howto-arrow">→</div>
+                <div class="howto-step">
+                    <div class="hs-num">02</div>
+                    <div class="hs-icon">🏷️</div>
+                    <h4>Benzersiz Kod Verilir</h4>
+                    <p>Kumaşına özgün bir ID atanır. Hikâyen dijital arşive kaydedilir.</p>
+                </div>
+                <div class="howto-arrow">→</div>
+                <div class="howto-step">
+                    <div class="hs-num">03</div>
+                    <div class="hs-icon">✂️</div>
+                    <h4>Atölyede Dönüşüm</h4>
+                    <p>Kadın ustalar kumaşını upcycle ederek yeni bir ürüne dönüştürür.</p>
+                </div>
+                <div class="howto-arrow">→</div>
+                <div class="howto-step">
+                    <div class="hs-num">04</div>
+                    <div class="hs-icon">🛍️</div>
+                    <h4>Yeni Hayat Kazanır</h4>
+                    <p>Ürün Boyner mağazalarında satışa çıkar, gelir kadın istihdamına döner.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-logo">🧵 Yeşil İplik</span>
+                <p>Kumaş atıklarını değil, potansiyelimizi dönüştürüyoruz.</p>
+            </div>
+            <div class="footer-slogan">
+                <em>"Mirasını Konuştur, Dünyaya Nefes Ol!"</em>
+            </div>
+            <div class="footer-partners">
+                <span>She Lab</span>
+                <span>·</span>
+                <span>Boyner Grup</span>
+                <span>·</span>
+                <span>UNDP</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
