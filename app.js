@@ -182,14 +182,9 @@ trackingInput.addEventListener("input", (e) => {
 let selectedFabric = "";
 let currentStep = 1;
 
-// Açma / Kapama
-document.querySelectorAll('.nav-link').forEach(link => {
-  if (link.textContent.trim() === 'Bağış Yap') {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      openDonateModal();
-    });
-  }
+document.getElementById('donatBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  openDonateModal();
 });
 
 document.getElementById('modalClose').addEventListener('click', closeDonateModal);
