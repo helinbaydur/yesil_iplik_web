@@ -27,6 +27,7 @@
                 <a href="#" class="nav-link active">Takip Et</a>
                 <a href="#" class="nav-link">Hakkında</a>
                 <a href="#" class="nav-link">İletişim</a>
+                <a href="#" class="nav-link">Bağış Yap</a>
             </nav>
         </div>
     </header>
@@ -217,7 +218,120 @@
         </div>
     </footer>
 
+    <!-- BAĞIŞ MODAL -->
+    <div id="donateModal" class="modal-overlay hidden">
+      <div class="modal-box">
+
+        <button class="modal-close" id="modalClose">✕</button>
+
+        <div class="modal-header">
+          <span class="modal-icon">🧵</span>
+          <h2 class="modal-title">Kumaşını Bağışla</h2>
+          <p class="modal-subtitle">Her kumaş parçası yeni bir hikâyenin başlangıcı. Bağışın atölyemize ulaştığında sana özel bir takip kodu gönderilecek.</p>
+        </div>
+
+        <div class="modal-steps-bar">
+          <div class="msb-step active" data-step="1"><span>1</span> Bilgiler</div>
+          <div class="msb-line"></div>
+          <div class="msb-step" data-step="2"><span>2</span> Kumaş</div>
+          <div class="msb-line"></div>
+          <div class="msb-step" data-step="3"><span>3</span> Onay</div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="modal-step" id="step1">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Ad Soyad</label>
+              <input type="text" id="f_name" placeholder="Örn: Ayşe Kaya" />
+            </div>
+            <div class="form-group">
+              <label>E-posta</label>
+              <input type="email" id="f_email" placeholder="ornek@mail.com" />
+            </div>
+            <div class="form-group">
+              <label>Telefon</label>
+              <input type="tel" id="f_phone" placeholder="05XX XXX XX XX" />
+            </div>
+            <div class="form-group">
+              <label>Şehir</label>
+              <select id="f_city">
+                <option value="">Şehir seçin...</option>
+                <option>İstanbul</option><option>Ankara</option><option>İzmir</option>
+                <option>Bursa</option><option>Antalya</option><option>Konya</option>
+                <option>Gaziantep</option><option>Trabzon</option><option>Erzurum</option>
+                <option>Diyarbakır</option><option>Diğer</option>
+              </select>
+            </div>
+          </div>
+          <button class="modal-btn" onclick="goStep(2)">Devam Et →</button>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="modal-step hidden" id="step2">
+          <div class="fabric-type-grid">
+            <div class="fabric-type-card" data-type="Pamuk"><span>🧶</span><span>Pamuk</span></div>
+            <div class="fabric-type-card" data-type="Keten"><span>🪡</span><span>Keten</span></div>
+            <div class="fabric-type-card" data-type="Yün"><span>🧣</span><span>Yün</span></div>
+            <div class="fabric-type-card" data-type="İpek"><span>✨</span><span>İpek</span></div>
+            <div class="fabric-type-card" data-type="Karışık"><span>🎨</span><span>Karışık</span></div>
+            <div class="fabric-type-card" data-type="Diğer"><span>📦</span><span>Diğer</span></div>
+          </div>
+          <div class="form-group" style="margin-top:1.25rem">
+            <label>Kumaşın Hikâyesi <span style="color:var(--text-light);font-weight:400">(isteğe bağlı)</span></label>
+            <textarea id="f_story" rows="3" placeholder="Bu kumaş sana ne ifade ediyor? Bir düğün hatırası mı, annenin çeyizi mi?..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Teslim Yöntemi</label>
+            <div class="delivery-options">
+              <label class="delivery-opt"><input type="radio" name="delivery" value="Karavana Getir" checked /><span>🚐 Karavana Getir</span></label>
+              <label class="delivery-opt"><input type="radio" name="delivery" value="Boyner Mağazası" /><span>🏪 Boyner Mağazası</span></label>
+              <label class="delivery-opt"><input type="radio" name="delivery" value="Kargo ile Gönder" /><span>📦 Kargo ile Gönder</span></label>
+            </div>
+          </div>
+          <div style="display:flex;gap:.75rem">
+            <button class="modal-btn secondary" onclick="goStep(1)">← Geri</button>
+            <button class="modal-btn" onclick="goStep(3)">Devam Et →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="modal-step hidden" id="step3">
+          <div class="summary-box">
+            <div class="summary-row"><span>👤 Ad Soyad</span><strong id="s_name">—</strong></div>
+            <div class="summary-row"><span>📍 Şehir</span><strong id="s_city">—</strong></div>
+            <div class="summary-row"><span>🧵 Kumaş Türü</span><strong id="s_fabric">—</strong></div>
+            <div class="summary-row"><span>🚚 Teslim</span><strong id="s_delivery">—</strong></div>
+          </div>
+          <div class="impact-preview">
+            <div class="ip-item"><span class="ip-num">12.000</span><span class="ip-label">litre su tasarrufu</span></div>
+            <div class="ip-divider"></div>
+            <div class="ip-item"><span class="ip-num">23 ton</span><span class="ip-label">CO₂ azaltımı</span></div>
+            <div class="ip-divider"></div>
+            <div class="ip-item"><span class="ip-num">1 kadın</span><span class="ip-label">istihdama katkı</span></div>
+          </div>
+          <p class="confirm-note">📩 Bağışın onaylandığında e-posta adresine <strong>benzersiz takip kodun</strong> gönderilecek.</p>
+          <div style="display:flex;gap:.75rem">
+            <button class="modal-btn secondary" onclick="goStep(2)">← Geri</button>
+            <button class="modal-btn success" onclick="submitDonation()">✓ Bağışı Tamamla</button>
+          </div>
+        </div>
+
+        <!-- STEP 4 — Teşekkür -->
+        <div class="modal-step hidden" id="step4">
+          <div class="thank-you">
+            <div class="ty-icon">🌱</div>
+            <h3>Teşekkürler!</h3>
+            <p>Bağışın kayıt altına alındı. Takip kodun kısa süre içinde <strong id="s_email_confirm">—</strong> adresine gönderilecek.</p>
+            <div class="ty-code" id="ty_code">—</div>
+            <p class="ty-sub">Bu kodla kumaşının yolculuğunu her an takip edebilirsin.</p>
+            <button class="modal-btn" onclick="closeDonateModal()">Kapat</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
-
 </html>

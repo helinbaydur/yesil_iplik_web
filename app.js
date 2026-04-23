@@ -177,3 +177,126 @@ trackingInput.addEventListener("input", (e) => {
   e.target.value = e.target.value.toUpperCase();
   e.target.setSelectionRange(pos, pos);
 });
+
+// ── BAĞIŞ MODAL ──────────────────────────────────────────────────────────────
+let selectedFabric = "";
+let currentStep = 1;
+
+// Açma / Kapama
+document.querySelectorAll('.nav-link').forEach(link => {
+  if (link.textContent.trim() === 'Bağış Yap') {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      openDonateModal();
+    });
+  }
+});
+
+document.getElementById('modalClose').addEventListener('click', closeDonateModal);
+document.getElementById('donateModal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeDonateModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeDonateModal();
+});
+
+function openDonateModal() {
+  document.getElementById('donateModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  goStep(1);
+}
+
+function closeDonateModal() {
+  document.getElementById('donateModal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+// Kumaş tipi seçimi
+document.querySelectorAll('.fabric-type-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.fabric-type-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedFabric = card.dataset.type;
+  });
+});
+
+// Step navigasyonu
+function goStep(n) {
+  // Validate step 1
+  if (n === 2 && currentStep === 1) {
+    const name  = document.getElementById('f_name').value.trim();
+    const email = document.getElementById('f_email').value.trim();
+    const city  = document.getElementById('f_city').value;
+    if (!name || !email || !city) {
+      shakeForm();
+      return;
+    }
+  }
+
+  // Validate step 2
+  if (n === 3 && currentStep === 2) {
+    if (!selectedFabric) {
+      document.querySelectorAll('.fabric-type-card').forEach(c => {
+        c.style.animation = 'none';
+        setTimeout(() => c.style.animation = '', 10);
+      });
+      shakeForm();
+      return;
+    }
+    // Fill summary
+    document.getElementById('s_name').textContent     = document.getElementById('f_name').value;
+    document.getElementById('s_city').textContent     = document.getElementById('f_city').value;
+    document.getElementById('s_fabric').textContent   = selectedFabric;
+    const delivery = document.querySelector('input[name="delivery"]:checked');
+    document.getElementById('s_delivery').textContent = delivery ? delivery.value : '—';
+  }
+
+  currentStep = n;
+
+  // Show/hide steps
+  [1,2,3,4].forEach(i => {
+    document.getElementById('step' + i).classList.toggle('hidden', i !== n);
+  });
+
+  // Update step bar
+  document.querySelectorAll('.msb-step').forEach(el => {
+    const s = parseInt(el.dataset.step);
+    el.classList.remove('active', 'done');
+    if (s === n) el.classList.add('active');
+    if (s < n)  el.classList.add('done');
+  });
+}
+
+function shakeForm() {
+  const box = document.querySelector('.modal-box');
+  box.style.animation = 'none';
+  box.style.transform = 'translateX(-8px)';
+  setTimeout(() => { box.style.transform = 'translateX(8px)'; }, 80);
+  setTimeout(() => { box.style.transform = 'translateX(0)'; }, 160);
+}
+
+function submitDonation() {
+  // Generate unique code
+  const city   = document.getElementById('f_city').value;
+  const prefix = city.slice(0,3).toUpperCase().replace('İ','I').replace('Ş','S').replace('Ğ','G');
+  const num    = String(Math.floor(Math.random() * 900) + 100);
+  const code   = prefix + '-' + num;
+
+  document.getElementById('ty_code').textContent          = code;
+  document.getElementById('s_email_confirm').textContent  = document.getElementById('f_email').value;
+
+  // Add to local DB so it's immediately trackable
+  const delivery = document.querySelector('input[name="delivery"]:checked');
+  FABRIC_DB[code] = {
+    title: selectedFabric + ' Kumaşı',
+    story: document.getElementById('f_story').value || '"Bağışçı hikâyesini paylaşmadı."',
+    city: document.getElementById('f_city').value,
+    type: selectedFabric,
+    product: 'Belirleniyor',
+    water: '—',
+    statusLabel: 'Bağış Alındı',
+    statusStep: 1,
+  };
+
+  goStep(4);
+}
