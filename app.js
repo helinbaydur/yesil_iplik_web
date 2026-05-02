@@ -178,7 +178,87 @@ trackingInput.addEventListener("input", (e) => {
   e.target.setSelectionRange(pos, pos);
 });
 
-// ── BAĞIŞ MODAL ──────────────────────────────────────────────────────────────
+// ── MEDYA YÜKLEME ────────────────────────────────────────────────────────────
+let uploadedFiles = [];
+
+const mediaInput   = document.getElementById('f_media');
+const muaPreviews  = document.getElementById('muaPreviews');
+const uploadArea   = document.getElementById('mediaUploadArea');
+
+mediaInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+// Drag & drop
+uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+uploadArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+
+function handleFiles(files) {
+  Array.from(files).forEach(file => {
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) return;
+    if (file.size > 20 * 1024 * 1024) { alert(file.name + ' 20 MB sınırını aşıyor.'); return; }
+    uploadedFiles.push(file);
+    renderPreview(file, uploadedFiles.length - 1);
+  });
+  // hide the inner prompt once files added
+  document.getElementById('muaInner').style.display = uploadedFiles.length ? 'none' : 'flex';
+}
+
+function renderPreview(file, idx) {
+  const item = document.createElement('div');
+  item.className = 'preview-item';
+  item.dataset.idx = idx;
+
+  if (file.type.startsWith('image/')) {
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    item.appendChild(img);
+  } else {
+    const vid = document.createElement('video');
+    vid.src = URL.createObjectURL(file);
+    vid.muted = true;
+    item.appendChild(vid);
+    const badge = document.createElement('span');
+    badge.className = 'preview-video-badge';
+    badge.textContent = '▶ video';
+    item.appendChild(badge);
+  }
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'preview-remove';
+  removeBtn.textContent = '✕';
+  removeBtn.onclick = () => removeFile(idx, item);
+  item.appendChild(removeBtn);
+
+  // Insert before the "+" add button if it exists, else append
+  const addBtn = muaPreviews.querySelector('.preview-add');
+  if (addBtn) muaPreviews.insertBefore(item, addBtn);
+  else muaPreviews.appendChild(item);
+
+  // Add "+" tile if not present
+  if (!muaPreviews.querySelector('.preview-add')) {
+    const add = document.createElement('button');
+    add.type = 'button';
+    add.className = 'preview-add';
+    add.textContent = '+';
+    add.onclick = () => mediaInput.click();
+    muaPreviews.appendChild(add);
+  }
+}
+
+function removeFile(idx, itemEl) {
+  uploadedFiles[idx] = null;
+  itemEl.remove();
+  const remaining = uploadedFiles.filter(Boolean);
+  if (remaining.length === 0) {
+    uploadedFiles = [];
+    muaPreviews.innerHTML = '';
+    document.getElementById('muaInner').style.display = 'flex';
+  }
+}
 let selectedFabric = "";
 let currentStep = 1;
 

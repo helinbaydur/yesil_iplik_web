@@ -281,12 +281,27 @@
             <label>Kumaşın Hikâyesi <span style="color:var(--text-light);font-weight:400">(isteğe bağlı)</span></label>
             <textarea id="f_story" rows="3" placeholder="Bu kumaş sana ne ifade ediyor? Bir düğün hatırası mı, annenin çeyizi mi?..."></textarea>
           </div>
+
+          <!-- MEDYA YÜKLEME -->
+          <div class="form-group" style="margin-top:1rem">
+            <label>Fotoğraf / Video <span style="color:var(--text-light);font-weight:400">(isteğe bağlı)</span></label>
+            <div class="media-upload-area" id="mediaUploadArea">
+              <input type="file" id="f_media" accept="image/*,video/*" multiple style="display:none" />
+              <div class="mua-inner" id="muaInner">
+                <span class="mua-icon">📷</span>
+                <p class="mua-text">Kumaşının fotoğrafını veya videosunu ekle</p>
+                <p class="mua-sub">JPG, PNG, MP4 · Maks. 20 MB</p>
+                <button type="button" class="mua-btn" onclick="document.getElementById('f_media').click()">Dosya Seç</button>
+              </div>
+              <div class="mua-previews" id="muaPreviews"></div>
+            </div>
+          </div>
           <div class="form-group">
             <label>Teslim Yöntemi</label>
             <div class="delivery-options">
               <label class="delivery-opt"><input type="radio" name="delivery" value="Karavana Getir" checked /><span>🚐 Karavana Getir</span></label>
               <label class="delivery-opt"><input type="radio" name="delivery" value="Boyner Mağazası" /><span>🏪 Boyner Mağazası</span></label>
-              <label class="delivery-opt"><input type="radio" name="delivery" value="Kargo ile Gönder" /><span>📦 Kargo ile Gönder</span></label>
+              <label class="delivery-opt"><input type="radio" name="delivery" value="Motokurye ile Gönder" /><span>🛵 Motokurye ile Gönder</span></label>
             </div>
           </div>
           <div style="display:flex;gap:.75rem">
